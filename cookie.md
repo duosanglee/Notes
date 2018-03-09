@@ -42,7 +42,8 @@ Secure 属性值定义cookie的安全性，当该值为true时必须是HTTPS状�
 
 Version 属性定义cookie的版本，由cookie的创建者定义。
 
-**服务端设置 cookie**
+<br>
+**服务端设置 cookie**  
 通常使用 HTTP 协议规定的 set-cookie 头操作。
 规范规定 cookie 的格式为 name = value 格式，且必须包含这部分。
 
