@@ -34,7 +34,7 @@ Comment 属性是cookie的产生着对该cookie的描述；
 
 Domain 属性定义可访问该cookie的域名，对一些大的网站，如果希望cookie可以在子网站中共享，可以使用该属性。例如设置Domain为http://bigsite.com ,则http://sub1.bigsite.com和http://sub2.bigsite.com都可以访问已保存在客户端的cookie，这时还需要将Path设置为/。
 
-Max-Age 属性定义cookie的有效时间，用秒计数，当超过有效期后，cookie的信息不会从客户端附加在HTTP消息头中发送到服务端。
+Max-Age 属性定义cookie的有效时间，用秒计数，当超过有效期后，cookie的信息不会从客户端附加在HTTP消息头中发送到服务端。如果不设置该属性，那么Cookie只在浏览网页期间有效，关闭浏览器，这些Cookie自动消失
 
 Path 属性定义网站上可以访问cookie的页面的路径，缺省状态下Path为产生cookie时的路径，此时cookie可以被该路径以及其子路径下的页面访问；可以将Path设置为/，使cookie可以被网站下所有页面访问。
 
