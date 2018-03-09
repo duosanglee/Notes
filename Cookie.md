@@ -19,7 +19,14 @@ Cookie储存在用户本地终端（Client Side）特定目录下的数据（通
 在客户端和服务器端交互过程中，Cookie信息被附加在HTTP消息头中传递，所以Cookie信息过多的话会影响传输效率
 
 - 不安全  
-由于是存储在客户端的数据，Cookie 可能会被篡改
+由于是存储在客户端的数据，Cookie可能会被篡改。  
+建议开发人员在向客户端Cookie输出敏感的内容时
+1. 设置该Cookie不能被脚本读取，这样在一定程度上解决上述问题。
+2. 对Cookie内容进行加密，在加密前嵌入时间戳，保证每次加密后的密文都不一样（并且可以防止消息重放）。
+3. 客户端请求时，每次或定时更新Cookie内容（即：基于第2小条，重新加密）
+4. 每次向Cookie写入时间戳，数据库需要记录最后一次时间戳（防止Cookie篡改，或重放攻击）。
+5. 客户端提交Cookie时，先解密然后校验时间戳，时间戳若小于数据数据库中记录，即意味发生攻击。
+基于上述建议，即使Cookie被窃取，却因 Cookie被随机更新，且内容无规律性，攻击者无法加以利用。另外利用了时间戳另一大好处就是防止Cookie篡改或重放。
 
 - 大小限制  
 每个域名下允许的Cookie是有限制的，根据浏览器这个限制也不同。一个域名的每个Cookie限制以4千字节（KB）键值对的形式存储。
@@ -28,19 +35,19 @@ Cookie储存在用户本地终端（Client Side）特定目录下的数据（通
 用户配置为禁用 有些用户禁用了浏览器或客户端设备接收Cookie的能力，因此限制了这一功能。
 
 ## Cookie设置
-一个cookie只能包含一个自定义键/值对。Cookie本身属性有”Comment” 、”Domain”、”Max-Age”、”Path”、”Secure”、”Version”。
+一个Cookie只能包含一个自定义键/值对。Cookie本身属性有”Comment” 、”Domain”、”Max-Age”、”Path”、”Secure”、”Version”。
 
-Comment 属性是cookie的产生着对该cookie的描述；
+Comment 属性是Cookie的产生着对该Cookie的描述；
 
-Domain 属性定义可访问该cookie的域名，对一些大的网站，如果希望cookie可以在子网站中共享，可以使用该属性。例如设置Domain为http://bigsite.com ,则http://sub1.bigsite.com和http://sub2.bigsite.com都可以访问已保存在客户端的cookie，这时还需要将Path设置为/。
+Domain 属性定义可访问该Cookie的域名，对一些大的网站，如果希望Cookie可以在子网站中共享，可以使用该属性。例如设置Domain为http://bigsite.com ,则http://sub1.bigsite.com和http://sub2.bigsite.com都可以访问已保存在客户端的Cookie，这时还需要将Path设置为/。
 
-Max-Age 属性定义cookie的有效时间，用秒计数，当超过有效期后，cookie的信息不会从客户端附加在HTTP消息头中发送到服务端。如果不设置该属性，那么Cookie只在浏览网页期间有效，关闭浏览器，这些Cookie自动消失
+Max-Age 属性定义Cookie的有效时间，用秒计数，当超过有效期后，Cookie的信息不会从客户端附加在HTTP消息头中发送到服务端。如果不设置该属性，那么Cookie只在浏览网页期间有效，关闭浏览器，这些Cookie自动消失
 
-Path 属性定义网站上可以访问cookie的页面的路径，缺省状态下Path为产生cookie时的路径，此时cookie可以被该路径以及其子路径下的页面访问；可以将Path设置为/，使cookie可以被网站下所有页面访问。
+Path 属性定义网站上可以访问Cookie的页面的路径，缺省状态下Path为产生Cookie时的路径，此时Cookie可以被该路径以及其子路径下的页面访问；可以将Path设置为/，使Cookie可以被网站下所有页面访问。
 
-Secure 属性值定义cookie的安全性，当该值为true时必须是HTTPS状态下cookie才从客户端附加在HTTP消息中发送到服务端，在HTTP时cookie是不发送的；Secure为false时则可在HTTP状态下传递cookie，Secure缺省为false。
+Secure 属性值定义Cookie的安全性，当该值为true时必须是HTTPS状态下Cookie才从客户端附加在HTTP消息中发送到服务端，在HTTP时Cookie是不发送的；Secure为false时则可在HTTP状态下传递Cookie，Secure缺省为false。
 
-Version 属性定义cookie的版本，由cookie的创建者定义。
+Version 属性定义Cookie的版本，由Cookie的创建者定义。
 
 **服务端设置 Cookie**  
 通常使用 HTTP 协议规定的 set-Cookie 头操作。
